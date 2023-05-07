@@ -1,9 +1,6 @@
-import react from "react";
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
-  useLocation,
   HashRouter,
 } from "react-router-dom";
 import "./css/App.css";

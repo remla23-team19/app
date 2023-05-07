@@ -1,4 +1,3 @@
-import react from "react";
 import { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import SearchBar from "../structure/SearchBar";

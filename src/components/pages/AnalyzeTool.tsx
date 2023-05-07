@@ -1,4 +1,3 @@
-import react from "react";
 import SearchBar from "../structure/SearchBar";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Container } from "react-bootstrap";
