@@ -40,7 +40,7 @@ async function query() {
     console.log(data);
     let resultDiv = document.getElementById("result");
     if (data === null) {
-        resultDiv.innerHTML = "⚠️ </br> </br> <h6>Error: null response</h6>";
+        resultDiv.innerHTML = "⚠️ </br></br><h6>Error: null response</h6>";
     } else if ('sentiment' in data && data['sentiment']['label'] === 'POSITIVE') {
         resultDiv.innerHTML = "😊";
     } else if ('sentiment' in data && data['sentiment']['label'] === 'NEGATIVE') {
