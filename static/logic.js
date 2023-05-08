@@ -6,7 +6,7 @@ queryForm.addEventListener("submit", function(event) {
     event.preventDefault();
     let queryValue = queryInput.value.trim();
     if (queryValue) {
-        query();
+        query(queryValue);
     }
 });
 
@@ -24,31 +24,39 @@ getModelUrl().then((url) => {
     modelUrlLink.innerHTML = modelUrl;
     console.log(`Model URL: ${modelUrl}`);
 }).catch((error) => {
-    modelUrl = "http://localhost:8080/sentiment/" // default
+    modelUrl = "http://localhost:8080/sentiment" // default
     modelUrlLink.href = modelUrl;
     modelUrlLink.innerHTML = modelUrl;
     console.error(`Error getting model URL: ${error}`);
 });
 
-async function query() {
-    console.log("Querying the model with input: " + queryInput.value);
-    const response = await fetch("/predict", {
-        method: "POST",
-        body: new FormData(document.querySelector("form"))
+async function query(input) {
+    console.log("Querying the model with input: " + input);
+    const body = JSON.stringify({
+        "msg": input
     });
-    const data = await response.json();
-    console.log(data);
-    let resultDiv = document.getElementById("result");
-    if (data === null) {
-        resultDiv.innerHTML = "⚠️ </br></br><h6>Error: null response</h6>";
-    } else if ('sentiment' in data && data['sentiment']['label'] === 'POSITIVE') {
-        resultDiv.innerHTML = "😊";
-    } else if ('sentiment' in data && data['sentiment']['label'] === 'NEGATIVE') {
-        resultDiv.innerHTML = "😞";
-    } else if ('error' in data) {
-        resultDiv.innerHTML = "⚠️ </br> </br> <h6>Error: " + data['error'] + "</h6>";
-    } else {
-        resultDiv.innerHTML = "⚠️ (Error)";
+    console.log("Body: " + body);
+    try {
+        const response = await fetch(modelUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: body
+        });
+        const data = await response.json();
+        console.log(data);
+        if (data === null) {
+            resultDiv.innerHTML = "⚠️ </br></br><h6>Error: null response</h6>";
+        } else if (data['label'] === 'POSITIVE') {
+            resultDiv.innerHTML = "😊";
+        } else if (data['label'] === 'NEGATIVE') {
+            resultDiv.innerHTML = "😞";
+        } else {
+            resultDiv.innerHTML = "⚠️ (Error)";
+        }
+    } catch (error) {
+        resultDiv.innerHTML = "⚠️ </br> </br> <h6>Error: " + error + "</h6>";
     }
 }
 
