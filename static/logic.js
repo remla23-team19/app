@@ -1,4 +1,4 @@
-const queryInput = document.getElementById("query");
+const queryInput = document.getElementById("predict");
 const resultDiv = document.getElementById("result");
 
 queryInput.addEventListener("input", function(event) {

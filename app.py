@@ -11,7 +11,7 @@ def homepage():
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    input = request.form.get("query")
+    input = request.form.get("predict")
     if not input:
         return jsonify({"error": "No input was provided"}), 400
     try:
