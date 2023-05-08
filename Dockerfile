@@ -6,7 +6,6 @@ COPY requirements.txt /root/
 RUN python -m pip install --upgrade pip &&\
     pip install -r requirements.txt
 COPY app.py /root/
-COPY .env /root/
 COPY /templates/ /root/templates/
 COPY /static/ /root/static/
 ENTRYPOINT ["python"]

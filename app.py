@@ -3,11 +3,16 @@ import os
 import requests
 
 app = Flask(__name__)
-MODEL_URL =  os.environ.get("MODEL_URL", "http://localhost:8080/sentiment/")
+MODEL_URL =  os.environ.get("MODEL_URL", default="http://localhost:8080/sentiment/")
 
 @app.route("/")
 def homepage():
     return render_template("index.html")
+
+
+@app.route("/model_url", methods=["GET"])
+def get_model_url():
+    return jsonify({"model_url": MODEL_URL})
 
 @app.route("/predict", methods=["POST"])
 def predict():

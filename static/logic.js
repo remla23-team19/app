@@ -10,6 +10,26 @@ queryForm.addEventListener("submit", function(event) {
     }
 });
 
+async function getModelUrl() {
+    const response = await fetch("/model_url");
+    const data = await response.json();
+    return data.model_url;
+}
+
+let modelUrl;
+const modelUrlLink = document.getElementById("modelUrlLink");
+getModelUrl().then((url) => {
+    modelUrl = url;
+    modelUrlLink.href = modelUrl;
+    modelUrlLink.innerHTML = modelUrl;
+    console.log(`Model URL: ${modelUrl}`);
+}).catch((error) => {
+    modelUrl = "http://localhost:8080/sentiment/" // default
+    modelUrlLink.href = modelUrl;
+    modelUrlLink.innerHTML = modelUrl;
+    console.error(`Error getting model URL: ${error}`);
+});
+
 async function query() {
     console.log("Querying the model with input: " + queryInput.value);
     const response = await fetch("/predict", {
@@ -30,4 +50,10 @@ async function query() {
     } else {
         resultDiv.innerHTML = "⚠️ (Error)";
     }
+}
+
+async function getModelUrl() {
+    const response = await fetch("/model_url");
+    const data = await response.json();
+    return data.model_url;
 }
