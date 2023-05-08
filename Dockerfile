@@ -1,5 +1,5 @@
 # Dockerfile
-FROM python:3.7-slim
+FROM python:3.9-slim
 ENV MODEL_URL="http://localhost:8080/sentiment"
 WORKDIR /root
 COPY requirements.txt /root/
