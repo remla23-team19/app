@@ -36,27 +36,28 @@ async function query(input) {
         "msg": input
     });
     console.log("Body: " + body);
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", modelUrl);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            const data = JSON.parse(xhr.responseText);
-            console.log(data);
-            if (data === null) {
-                resultDiv.innerHTML = "⚠️ </br></br><h6>Error: null response</h6>";
-            } else if ('sentiment' in data && 'label' in data['sentiment'] && data['sentiment']['label'] === 'POSITIVE') {
-                resultDiv.innerHTML = "😊";
-            } else if ('sentiment' in data && 'label' in data['sentiment'] && data['sentiment']['label'] === 'NEGATIVE') {
-                resultDiv.innerHTML = "😞";
-            } else {
-                resultDiv.innerHTML = "⚠️ (Error)";
-            }
-        } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status !== 200) {
-            resultDiv.innerHTML = "⚠️ </br> </br> <h6>Error: " + xhr.status + "</h6>";
+    try {
+        const response = await fetch(modelUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: body
+        });
+        const data = await response.json();
+        console.log(data);
+        if (data === null) {
+            resultDiv.innerHTML = "⚠️ </br></br><h6>Error: null response</h6>";
+        } else if ('sentiment' in data && 'label' in data['sentiment'] && data['sentiment']['label'] === 'POSITIVE') {
+            resultDiv.innerHTML = "😊";
+        } else if ('sentiment' in data && 'label' in data['sentiment'] && data['sentiment']['label'] === 'NEGATIVE') {
+            resultDiv.innerHTML = "😞";
+        } else {
+            resultDiv.innerHTML = "⚠️ (Error)";
         }
-    };
-    xhr.send(body);
+    } catch (error) {
+        resultDiv.innerHTML = "⚠️ </br> </br> <h6>Error: " + error + "</h6>";
+    }
 }
 
 async function getModelUrl() {
