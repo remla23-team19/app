@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import os
 import requests
+import lib_remla19
 
 app = Flask(__name__)
 MODEL_URL =  os.environ.get("MODEL_URL", default="http://localhost:8080/sentiment/")
