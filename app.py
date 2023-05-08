@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, jsonify
+from flask_cors import CORS
 import os
 import lib_remla19
 
 app = Flask(__name__)
+CORS(app)
 MODEL_URL =  os.environ.get("MODEL_URL", default="http://localhost:8080/sentiment")
 
 @app.route("/")
