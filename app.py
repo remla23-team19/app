@@ -3,7 +3,7 @@ import os
 import requests
 
 app = Flask(__name__)
-MODEL_URL =  os.environ.get("MODEL_URL", "http://localhost:8080/sentiment")
+MODEL_URL =  os.environ.get("MODEL_URL", "http://localhost:8080/sentiment/")
 
 @app.route("/")
 def homepage():

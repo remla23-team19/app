@@ -7,7 +7,8 @@ RUN python -m pip install --upgrade pip &&\
     pip install -r requirements.txt
 COPY app.py /root/
 COPY .env /root/
-COPY /src/index.html /root/templates/
+COPY /templates/ /root/templates/
+COPY /static/ /root/static/
 ENTRYPOINT ["python"]
 CMD ["app.py"]
 EXPOSE 9999
