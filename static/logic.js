@@ -16,6 +16,12 @@ async function getModelUrl() {
     return data.model_url;
 }
 
+async function getModelVersion() {
+    const response = await fetch("/model_version");
+    const data = await response.json();
+    return data.model_version;
+}
+
 let modelUrl;
 const modelUrlLink = document.getElementById("modelUrlLink");
 getModelUrl().then((url) => {
@@ -28,6 +34,18 @@ getModelUrl().then((url) => {
     modelUrlLink.href = modelUrl;
     modelUrlLink.innerHTML = modelUrl;
     console.error(`Error getting model URL: ${error}`);
+});
+
+let modelVersion;
+const modelVersionElement = document.getElementById("modelVersion");
+getModelVersion().then((version) => {
+    modelVersion = version;
+    modelVersionElement.innerHTML = modelVersion;
+    console.log(`Model Version: ${modelVersion}`);
+}).catch((error) => {
+    modelVersion = "latest" // default
+    modelVersionElement.innerHTML = modelVersion;
+    console.error(`Error getting model version: ${error}`);
 });
 
 async function query(input) {
@@ -49,9 +67,9 @@ async function query(input) {
         if (data === null) {
             resultDiv.innerHTML = "⚠️ </br></br><h6>Error: null response</h6>";
         } else if ('sentiment' in data && 'label' in data['sentiment'] && data['sentiment']['label'] === 'POSITIVE') {
-            resultDiv.innerHTML = "😊";
+            resultDiv.innerHTML = "😊 <h6>(Score: " + data['sentiment']['label'] + ")</h6>";
         } else if ('sentiment' in data && 'label' in data['sentiment'] && data['sentiment']['label'] === 'NEGATIVE') {
-            resultDiv.innerHTML = "😞";
+            resultDiv.innerHTML = "😞 <h6>(Score: " + data['sentiment']['label'] + ")</h6>";
         } else {
             resultDiv.innerHTML = "⚠️ (Error)";
         }
