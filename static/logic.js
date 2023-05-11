@@ -67,7 +67,7 @@ async function query(input) {
         if (data === null) {
             resultDiv.innerHTML = "⚠️ </br></br><h6>Error: null response</h6>";
         } else if ('sentiment' in data && 'label' in data['sentiment'] && data['sentiment']['label'] === 'POSITIVE') {
-            resultDiv.innerHTML = "😊 <h6>(Score: " + data['sentiment']['label'] + ")</h6>";
+            resultDiv.innerHTML = "😊 <h6>(Score: " + data['sentiment']['score'] + ")</h6>";
         } else if ('sentiment' in data && 'label' in data['sentiment'] && data['sentiment']['label'] === 'NEGATIVE') {
             resultDiv.innerHTML = "😞 <h6>(Score: " + data['sentiment']['score'] + ")</h6>";
         } else {
