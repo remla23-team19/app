@@ -69,7 +69,7 @@ async function query(input) {
         } else if ('sentiment' in data && 'label' in data['sentiment'] && data['sentiment']['label'] === 'POSITIVE') {
             resultDiv.innerHTML = "😊 <h6>(Score: " + data['sentiment']['label'] + ")</h6>";
         } else if ('sentiment' in data && 'label' in data['sentiment'] && data['sentiment']['label'] === 'NEGATIVE') {
-            resultDiv.innerHTML = "😞 <h6>(Score: " + data['sentiment']['label'] + ")</h6>";
+            resultDiv.innerHTML = "😞 <h6>(Score: " + data['sentiment']['score'] + ")</h6>";
         } else {
             resultDiv.innerHTML = "⚠️ (Error)";
         }
