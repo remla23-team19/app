@@ -1,6 +1,7 @@
 # Dockerfile
 FROM python:3.9-slim
 ENV MODEL_URL="http://localhost:8080/sentiment"
+ENV VERSION="latest"
 WORKDIR /root
 COPY requirements.txt /root/
 RUN python -m pip install --upgrade pip &&\
