@@ -30,9 +30,9 @@ def get_model_version():
 @app.route("/metrics", methods=["GET"])
 def metrics():
     global pageVisits
-    m = "# HELP pageVisits This shows the number of times this page was visited.\n"
-    m += "# TYPE pageVisits counter\n"
-    m += "num_requests{{page=\"\"}} {}\n".format(pageVisits)
+    m = "# HELP num_requests This shows the number of times this page was visited.\n"
+    m += "# TYPE num_requests counter\n"
+    m += "num_requests{{page=\"frontend\"}} {}\n".format(pageVisits)
     return Response(m, mimetype="text/plain")
 
 
