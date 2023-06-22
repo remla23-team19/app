@@ -4,7 +4,7 @@ const resultDiv = document.getElementById("result");
 const correctButton = document.getElementById("correctButton")
 const wrongButton = document.getElementById("wrongButton")
 
-correctButton.addEventListener('click', function(){
+correctButton.addEventListener('click', async function(){
   const body = JSON.stringify({
     "correctness" : "correct"
   });
@@ -20,7 +20,7 @@ correctButton.addEventListener('click', function(){
 });
 
 
-wrongButton.addEventListener('click', function(){
+wrongButton.addEventListener('click', async function(){
 const body = JSON.stringify({
     "correctness" : "wrong"
   });
