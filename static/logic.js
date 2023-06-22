@@ -1,6 +1,40 @@
 const queryForm = document.getElementById("query-form");
 const queryInput = document.getElementById("predict");
 const resultDiv = document.getElementById("result");
+const correctButton = document.getElementById("correctButton")
+const wrongButton = document.getElementById("wrongButton")
+
+correctButton.addEventListener('click', function(){
+  const body = JSON.stringify({
+    "correctness" : "correct"
+  });
+  try {
+    const response = await fetch("http://localhost/correctness", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: body
+    });
+  } catch (error) {}
+});
+
+
+wrongButton.addEventListener('click', function(){
+const body = JSON.stringify({
+    "correctness" : "wrong"
+  });
+  try {
+    const response = await fetch("http://localhost/correctness", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: body
+    });
+  } catch (error) {}
+
+});
 
 queryForm.addEventListener("submit", function(event) {
     event.preventDefault();
