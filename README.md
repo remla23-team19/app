@@ -19,7 +19,7 @@ You can either run the webservice locally or in a Docker container.
 
 Run it **locally** by installing the requirements as follows (virtual environment optional):
 ```zsh
-python -m venv
+python -m venv venv
 source venv/bin/activate
 
 pip install -r requirements.txt
