@@ -17,8 +17,11 @@ You can either run the webservice locally or in a Docker container.
 
 ---
 
-Run it **locally** by installing the requirements as follows:
+Run it **locally** by installing the requirements as follows (virtual environment optional):
 ```zsh
+python -m venv
+source venv/bin/activate
+
 pip install -r requirements.txt
 pip install --index-url https://test.pypi.org/simple/ --no-deps lib_remla19
 ```
