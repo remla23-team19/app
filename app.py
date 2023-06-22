@@ -22,7 +22,7 @@ def homepage():
 def get_model_url():
     return jsonify({"model_url": MODEL_URL})
 
-@app.route("/correctness", methods["POST"])
+@app.route("/correctness", methods=["POST"])
 def set_correctness():
     global correct
     global incorrect
@@ -31,6 +31,7 @@ def set_correctness():
       correct += 1
     else:
       incorrect += 1
+    return jsonify({"response": "thanks"})
 
 
 @app.route("/model_version", methods=["GET"])
