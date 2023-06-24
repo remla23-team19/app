@@ -229,9 +229,6 @@ async function query(input) {
       throw new Error("HTTP status code: " + response.status);
     }
   } catch (error) {
-    resultDiv.innerHTML =
-      "⚠️ </br> </br> <h6>Error: " +
-      error +
-      "</h6> </br> </br> <h6>Make sure that the model is running and that the model URL is correct.</h6>";
+    resultDiv.innerHTML = "⚠️ " + error;
   }
 }
