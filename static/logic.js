@@ -216,6 +216,9 @@ async function query(input) {
     // Show feedback buttons
     showButtons();
   } catch (error) {
-    resultDiv.innerHTML = "⚠️ </br> </br> <h6>Error: " + error + "</h6>";
+    resultDiv.innerHTML =
+      "⚠️ </br> </br> <h6>Error: " +
+      error +
+      "</h6> </br> </br> <h6>Make sure that the model is running and that the model URL is correct.</h6>";
   }
 }
