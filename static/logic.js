@@ -172,10 +172,10 @@ getModelVersion()
   });
 
 /**
- * The function queries a model with input and displays the sentiment score and label in an HTML
- * element.
+ * The function queries a machine learning model with input and displays the sentiment analysis result.
  * @param input - The input parameter is a string that represents the text to be analyzed for sentiment
- * analysis. It is used to query a machine learning model and obtain a sentiment score.
+ * analysis. It is used to query a machine learning model and obtain a sentiment score and label for
+ * the input text.
  */
 async function query(input) {
   console.log("Querying the model with input: " + input);
@@ -191,30 +191,43 @@ async function query(input) {
       },
       body: body,
     });
-    const data = await response.json();
-    console.log(data);
-    if (data === null) {
-      resultDiv.innerHTML = "⚠️ </br></br><h6>Error: null response</h6>";
-    } else if (
-      "sentiment" in data &&
-      "label" in data["sentiment"] &&
-      data["sentiment"]["label"] === "POSITIVE"
-    ) {
-      resultDiv.innerHTML =
-        "😊 <h6>(Score: " + data["sentiment"]["score"] + ")</h6>";
-    } else if (
-      "sentiment" in data &&
-      "label" in data["sentiment"] &&
-      data["sentiment"]["label"] === "NEGATIVE"
-    ) {
-      resultDiv.innerHTML =
-        "😞 <h6>(Score: " + data["sentiment"]["score"] + ")</h6>";
-    } else {
-      resultDiv.innerHTML = "⚠️ (Error)";
-    }
 
-    // Show feedback buttons
-    showButtons();
+    // Check if the response is successful
+    if (response.ok) {
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        // Response is valid JSON
+        const data = await response.json();
+        console.log(data);
+        if (
+          "sentiment" in data &&
+          "label" in data["sentiment"] &&
+          data["sentiment"]["label"] === "POSITIVE"
+        ) {
+          resultDiv.innerHTML =
+            "😊 <h6>(Score: " + data["sentiment"]["score"] + ")</h6>";
+        } else if (
+          "sentiment" in data &&
+          "label" in data["sentiment"] &&
+          data["sentiment"]["label"] === "NEGATIVE"
+        ) {
+          resultDiv.innerHTML =
+            "😞 <h6>(Score: " + data["sentiment"]["score"] + ")</h6>";
+        } else {
+          resultDiv.innerHTML = "⚠️ (Error)";
+        }
+        // Show feedback buttons
+        showButtons();
+      } else {
+        // Response is not valid JSON, handle the error message
+        const errorMessage = await response.text();
+        resultDiv.innerHTML =
+          "⚠️ </br> </br> <h6>JSON response contains error: " + error;
+      }
+    } else {
+      // Response is not successful, handle the error
+      throw new Error("HTTP status code: " + response.status);
+    }
   } catch (error) {
     resultDiv.innerHTML =
       "⚠️ </br> </br> <h6>Error: " +
