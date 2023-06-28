@@ -6,6 +6,9 @@ const resultDiv = document.getElementById("result");
 const correctButton = document.getElementById("correctButton");
 const wrongButton = document.getElementById("wrongButton");
 const savedParagraph = document.getElementById("saved");
+const selectElement = document.getElementById('version-select');
+const trainedModelVersionElement = document.getElementById('trained-model-version');
+    
 
 /* These lines of code are hiding the "Correct" and "Wrong" buttons in the HTML form by setting their
 CSS `display` property to "none". This is done initially when the page loads, so that the buttons
@@ -34,6 +37,11 @@ queryForm.addEventListener("submit", function (event) {
   if (queryValue) {
     query(queryValue);
   }
+});
+
+selectElement.addEventListener('change', function() {
+  const selectedVersion = selectElement.value;
+  trainedModelVersionElement.textContent = selectedVersion + ' - or select another version:';
 });
 
 /**
@@ -132,6 +140,21 @@ async function getModelVersion() {
   return data.model_version;
 }
 
+fetch('/versions')
+  .then(response => response.json())
+  .then(data => {
+    data.forEach(version => {
+      const option = document.createElement('option');
+      option.value = version;
+      option.text = version;
+      selectElement.appendChild(option);
+    });
+  })
+  .catch(error => {
+    console.error('Error fetching available versions:', error);
+  });
+
+
 /* This code block is retrieving the model URL from a server endpoint using an asynchronous fetch
 request. It sets the `modelUrl` variable to the retrieved URL and updates the `href` and `innerHTML`
 properties of the `modelUrlLink` HTML element to display the URL. If there is an error retrieving
@@ -181,6 +204,7 @@ async function query(input) {
   console.log("Querying the model with input: " + input);
   const body = JSON.stringify({
     msg: input,
+    version: selectElement.value
   });
   console.log("Body: " + body);
   try {
@@ -188,6 +212,7 @@ async function query(input) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*", // Required for cross-origin requests
       },
       body: body,
     });
