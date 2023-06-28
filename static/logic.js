@@ -230,14 +230,14 @@ async function query(input) {
           data["sentiment"]["label"] === "POSITIVE"
         ) {
           resultDiv.innerHTML =
-            "😊 <h6>(Score: " + data["sentiment"]["score"] + ")</h6>";
+            "😊";
         } else if (
           "sentiment" in data &&
           "label" in data["sentiment"] &&
           data["sentiment"]["label"] === "NEGATIVE"
         ) {
           resultDiv.innerHTML =
-            "😞 <h6>(Score: " + data["sentiment"]["score"] + ")</h6>";
+            "😞";
         } else {
           resultDiv.innerHTML = "⚠️ (Error)";
         }
