@@ -11,6 +11,7 @@ pageVisits = 0
 correct = 0
 incorrect = 0
 
+
 @app.route("/")
 def homepage():
     global pageVisits
@@ -22,15 +23,16 @@ def homepage():
 def get_model_url():
     return jsonify({"model_url": MODEL_URL})
 
+
 @app.route("/correctness", methods=["POST"])
 def set_correctness():
     global correct
     global incorrect
     content = request.json
     if content["correctness"] == "correct":
-      correct += 1
+        correct += 1
     else:
-      incorrect += 1
+        incorrect += 1
     return jsonify({"response": "thanks"})
 
 
@@ -45,13 +47,14 @@ def metrics():
     global correct
     global incorrect
 
-    m = "# HELP num_requests This shows the number of times this page was visited.\n"
+    m = " >>> METRICS OVERVIEW <<<\n\n"
+    m += "# HELP num_requests This shows the number of times this page was visited.\n"
     m += "# TYPE num_requests counter\n"
-    m += "num_requests{{page=\"frontend\"}} {}\n".format(pageVisits)
+    m += "num_requests{{page=\"frontend\"}}: {}\n\n".format(pageVisits)
 
-    m+= "# HELP correctness shows the balance of correct and incorrect predictions.\n"
-    m+= "# TYPE correctness gauge\n"
-    m+= "correctness" + str(correct - incorrect) + "\n\n"
+    m += "# HELP correctness This shows the balance of correct and incorrect predictions based on user feedback.\n"
+    m += "# TYPE correctness gauge\n"
+    m += "correctness: " + str(correct - incorrect) + "\n\n"
     return Response(m, mimetype="text/plain")
 
 
