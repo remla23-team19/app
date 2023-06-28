@@ -6,8 +6,14 @@ import os
 
 import lib_remla19
 from flask import Flask, Response, jsonify, render_template, request
+from flask_cors import CORS
 
 app = Flask(__name__)
+cors = CORS(app)
+
+app = Flask(__name__)
+app.config["CORS_HEADERS"] = "Content-Type"
+
 MODEL_URL = os.environ.get("MODEL_URL", default="http://localhost:8080/sentiment")
 MODEL_VERSION = os.environ.get("VERSION", default="latest")
 
