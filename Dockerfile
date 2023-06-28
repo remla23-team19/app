@@ -1,5 +1,5 @@
 # Dockerfile
-FROM python:3.9-slim
+FROM python:3.8-slim
 ENV MODEL_URL="http://localhost:8080/sentiment"
 ENV VERSION="latest"
 WORKDIR /root
