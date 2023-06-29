@@ -8,6 +8,10 @@ const wrongButton = document.getElementById("wrongButton");
 const savedParagraph = document.getElementById("saved");
 const selectElement = document.getElementById('version-select');
 const trainedModelVersionElement = document.getElementById('trained-model-version');
+
+// Add event listener to the refresh button
+const refreshButton = document.getElementById('refresh-button');
+refreshButton.addEventListener('click', fetchAvailableVersions);
     
 
 /* These lines of code are hiding the "Correct" and "Wrong" buttons in the HTML form by setting their
@@ -37,11 +41,6 @@ queryForm.addEventListener("submit", function (event) {
   if (queryValue) {
     query(queryValue);
   }
-});
-
-selectElement.addEventListener('change', function() {
-  const selectedVersion = selectElement.value;
-  trainedModelVersionElement.textContent = selectedVersion + ' - or select another version:';
 });
 
 /**
@@ -154,6 +153,37 @@ fetch('/versions')
     console.error('Error fetching available versions:', error);
   });
 
+/**
+ * The function fetchAvailableVersions fetches available versions from a Flask route and populates a
+ * select element with the fetched versions.
+ */
+function fetchAvailableVersions() {
+  console.log('Fetching available versions...');
+  const selectElement = document.getElementById('version-select');
+  
+  // Reset the select options
+  selectElement.innerHTML = '';
+  const base_option = document.createElement('option');
+        base_option.value = "base";
+        base_option.text = "base";
+  selectElement.appendChild(base_option);
+
+  // Fetch the available versions from the Flask route
+  fetch('/versions')
+    .then(response => response.json())
+    .then(data => {
+      data.forEach(version => {
+        console.log('Found version:', version);
+        const option = document.createElement('option');
+        option.value = version;
+        option.text = version;
+        selectElement.appendChild(option);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching available versions:', error);
+    });
+}
 
 /* This code block is retrieving the model URL from a server endpoint using an asynchronous fetch
 request. It sets the `modelUrl` variable to the retrieved URL and updates the `href` and `innerHTML`

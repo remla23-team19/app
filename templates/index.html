@@ -23,12 +23,22 @@
           <p><b>Model Service Route</b>: <a id="modelUrlLink" href="#">Loading...</a></p>
           <p><b>Model Service Version</b>: <a id="modelVersion">Loading...</a></p>
           <hr>
-          <p><b>Trained Model Version</b>: <a id="trained-model-version">base - or select another version:</a></p>
-          <div>
-            <select class="form-select" id="version-select">
-              <option value="base">base</option>
-            </select>
+
+          <div class="row align-items-center">
+            <div class="col-auto h-100 d-flex align-items-center">
+              <p class="mb-0"><b>Trained Model Version</b>:</p>
+            </div>
+            <div class="col-auto">
+              <select class="form-select w-60" id="version-select">
+                <option value="base">base</option>
+              </select>
+            </div>
+            <div class="col-auto">
+              <button id="refresh-button" class="btn btn-slight" type="button">🔄</button>
+            </div>
           </div>
+
+
           <hr>
           <p><b>Group</b>: remla23-team19</p>
         </div>
