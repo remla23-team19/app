@@ -11,7 +11,10 @@ const trainedModelVersionElement = document.getElementById('trained-model-versio
 
 // Add event listener to the refresh button
 const refreshButton = document.getElementById('refresh-button');
-refreshButton.addEventListener('click', fetchAvailableVersions);
+refreshButton.addEventListener('click', async function() {
+  console.log('Refreshing available training models...');
+  fetchAvailableVersions()
+});
     
 
 /* These lines of code are hiding the "Correct" and "Wrong" buttons in the HTML form by setting their
@@ -139,25 +142,11 @@ async function getModelVersion() {
   return data.model_version;
 }
 
-fetch('/versions')
-  .then(response => response.json())
-  .then(data => {
-    data.forEach(version => {
-      const option = document.createElement('option');
-      option.value = version;
-      option.text = version;
-      selectElement.appendChild(option);
-    });
-  })
-  .catch(error => {
-    console.error('Error fetching available versions:', error);
-  });
-
 /**
- * The function fetchAvailableVersions fetches available versions from a Flask route and populates a
- * select element with the fetched versions.
+ * Fetches available versions from a GitHub repository and
+ * populates a select element with those versions.
  */
-function fetchAvailableVersions() {
+async function fetchAvailableVersions() {
   console.log('Fetching available versions...');
   const selectElement = document.getElementById('version-select');
   
@@ -168,21 +157,33 @@ function fetchAvailableVersions() {
         base_option.text = "base";
   selectElement.appendChild(base_option);
 
+  const TRAINED_MODELS_REPO = "remla23-team19/model-training";
+  const MODEL_VERSION_PATTERN = /v[0-9]+\.[0-9]+\.[0-9]+/;
+
   // Fetch the available versions from the Flask route
-  fetch('/versions')
+  fetch(`https://api.github.com/repos/${TRAINED_MODELS_REPO}/git/refs/tags`)
     .then(response => response.json())
     .then(data => {
-      data.forEach(version => {
-        console.log('Found version:', version);
-        const option = document.createElement('option');
-        option.value = version;
-        option.text = version;
-        selectElement.appendChild(option);
+      data.forEach(item => {
+        const version = item.ref.replace("refs/tags/", "");
+        if (MODEL_VERSION_PATTERN.test(version)) {
+          console.log('Found version:', version);
+          const option = document.createElement('option');
+          option.value = version;
+          option.text = version;
+          selectElement.appendChild(option);
+        }
       });
     })
     .catch(error => {
       console.error('Error fetching available versions:', error);
     });
+}
+fetchAvailableVersions();
+
+function verifyVersion(version) {
+  const MODEL_VERSION_PATTERN = /v[0-9]+\.[0-9]+\.[0-9]+/;
+  return MODEL_VERSION_PATTERN.test(version);
 }
 
 /* This code block is retrieving the model URL from a server endpoint using an asynchronous fetch
