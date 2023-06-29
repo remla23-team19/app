@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "app"
-version = "1.2.0"
+version = "1.2.1"
 description = "Frontend web application that is able to bring together all the other components of the project. It is able to receive a text input from the user and return the sentiment analysis of the text using the model-service, which uses a versioned model from model-training. Note, the model-service must be running in order for app to work (i.e. not only serve as static frontend)."
 authors = ["Philippe de Bekker, Hans Dekker, Luuk van Campen"]
 license = "MIT"
